@@ -4,7 +4,7 @@ using iText.Layout.Element;
 using iText.Layout.Properties;
 
 public static class PdfUtils {
-    public static Table AddCellSmall(this Table table, string text, bool background) {
+    public static Table AddCellSmall(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell()
                 .SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
@@ -12,7 +12,7 @@ public static class PdfUtils {
                 .Add(new Paragraph(text))
             );
     }
-    public static Table AddImageSmall(this Table table, Image image, bool background) {
+    public static Table AddImageSmall(this Table table, Image image, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .Add(image
@@ -22,21 +22,21 @@ public static class PdfUtils {
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
         );
     }
-    public static Table AddHeaderSmall(this Table table, string text, bool background) {
+    public static Table AddHeaderSmall(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .SetFontSize(9).SetBold()
                 .Add(new Paragraph(text))
         );
     }
-    public static Table AddHeader(this Table table, string text, bool background) {
+    public static Table AddHeader(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .SetFontSize(10).SetBold()
                 .Add(new Paragraph(text))
         );
     }
-    public static Table AddBlueHeaderSmall(this Table table, string text, bool background) {
+    public static Table AddBlueHeaderSmall(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .SetFontSize(9).SetBold()
@@ -44,7 +44,7 @@ public static class PdfUtils {
                 .Add(new Paragraph(text))
         );
     }
-    public static Table AddRedHeaderSmall(this Table table, string text, bool background) {
+    public static Table AddRedHeaderSmall(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .SetFontSize(9).SetBold()
@@ -57,7 +57,7 @@ public static class PdfUtils {
         canvas.Rectangle(x, y, width, height).Fill();
         return canvas.ResetFillColorRgb(); 
     }
-    public static Table AddHeaderLarge(this Table table, string text, bool background) {
+    public static Table AddHeaderLarge(this Table table, string text, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .SetFontSize(10).SetBold().SetHeight(35f).SetVerticalAlignment(VerticalAlignment.MIDDLE)
@@ -65,7 +65,11 @@ public static class PdfUtils {
         );
     }
     public static Table AddCell(this Table table, string text, bool background) {
-        return table.AddCell(new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null));
+        return table
+            .AddCell(new Cell()
+                .SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
+                .Add(new Paragraph(text))
+            );
     }
     public static bool IsOneOf(this object item, params object[] options) => options.Contains(item);
 }
