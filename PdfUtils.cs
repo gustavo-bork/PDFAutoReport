@@ -22,17 +22,10 @@ public static class PdfUtils {
                     .SetVerticalAlignment(VerticalAlignment.MIDDLE)
         );
     }
-    public static Table AddHeaderSmall(this Table table, string text, bool background = false) {
+    public static Table AddHeader(this Table table, string text, float fontSize, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
-                .SetFontSize(9).SetBold()
-                .Add(new Paragraph(text))
-        );
-    }
-    public static Table AddHeader(this Table table, string text, bool background = false) {
-        return table.AddCell(
-            new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
-                .SetFontSize(10).SetBold()
+                .SetFontSize(fontSize).SetBold()
                 .Add(new Paragraph(text))
         );
     }
@@ -64,12 +57,13 @@ public static class PdfUtils {
                 .Add(new Paragraph(text))
         );
     }
-    public static Table AddCell(this Table table, string text, bool background) {
-        return table
-            .AddCell(new Cell()
-                .SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
-                .Add(new Paragraph(text))
-            );
+    public static Table AddCell(this Table table, string text, float fontSize, bool background = false, bool bold = false, Color fontColor = null) {
+        var cell = new Cell();
+        if (background) cell = cell.SetBackgroundColor(ColorConstants.LIGHT_GRAY);
+        if (bold) cell = cell.SetBold();
+        if (fontColor is not null) cell.SetFontColor(fontColor);
+        
+        return table.AddCell(cell.SetFontSize(fontSize).Add(new Paragraph(text)));
     }
-    public static bool IsOneOf(this object item, params object[] options) => options.Contains(item);
+    public static bool IsOneOf(this string item, params string[] options) => options.Contains(item);
 }
