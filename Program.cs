@@ -1,4 +1,4 @@
-﻿using iText.Kernel.Pdf;
+using iText.Kernel.Pdf;
 using iText.Kernel.Pdf.Canvas;
 using iText.Kernel.Colors;
 using iText.Layout;
@@ -278,7 +278,83 @@ document.SetMargins(45, 45, 45, 45);
 #endregion
 
 #region Página 4
-    
+    canvas = new PdfCanvas(pdf.GetPage(4));
+
+    #region Flagrantes trânsito
+    canvas.MakeRectangle(x: 35, y: 735, width: 520, height: 60, color: lightGray);
+    paragraph = new Paragraph("Flagrantes de trânsito".ToUpper()).SetFontColor(ColorConstants.RED);
+    document.Add(paragraph);
+
+    table = new Table(new[] { 505f });
+    table.AddCell("Nenhum registro encontrado na base de dados".ToUpper(), 10, true);
+    document.Add(table);
+    #endregion
+
+    #region Base dados 1
+    // Image by Freepik
+    Image auction = new Image(ImageDataFactory.Create("auction.png"));
+    auction = auction
+        .SetHeight(30)
+        .SetWidth(30)
+        .SetFixedPosition(left: 45, bottom: 685);
+    canvas.MakeRectangle(x: 35, y: 680, width: 520, height: 40, color: ColorConstants.RED);
+    paragraph = new Paragraph("Publicado em edital de notificação e/ou leilão público".ToUpper())
+        .SetTextAlignment(TextAlignment.CENTER)
+        .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+        .SetFontSize(14)
+        .SetFixedPosition(left: 45, bottom: 690, width: 520)
+        .SetFontColor(ColorConstants.WHITE);
+    document.Add(paragraph);
+    document.Add(auction);
+
+    canvas.MakeRectangle(x: 35, y: 595, width: 520, height: 80, color: lightGray);
+    paragraph = new Paragraph("\n\n\n\nBase de ".ToUpper())
+        .Add(new Text("Dados 1".ToUpper()).SetBold())
+        .SetFontColor(ColorConstants.RED);
+    document.Add(paragraph);
+
+    table = new Table(new[] { 90f, 70f, 120f, 80f, 100f, 60f });
+    new List<string>() { 
+        "Data",
+        "Leiloeiro",
+        "Comitente",
+        "Condição",
+        "Aceitação seguro",
+        "% FIPE" 
+    }.ForEach(item => table.AddHeader(item, fontSize: 10));
+    new List<string>() {
+        DateTime.Now.ToShortDateString(),
+        string.Empty,
+        string.Empty,
+        string.Empty,
+        string.Empty,
+        string.Empty
+    }.ForEach(item => table.AddCell(item, fontSize: 10, background: true));
+    document.Add(table);
+    #endregion
+
+    #region Base dados 2
+    canvas.MakeRectangle(x: 35, y: 505, width: 520, height: 80, color: lightGray);
+    paragraph = new Paragraph("\n\nBase de ".ToUpper())
+        .Add(new Text("Dados 2".ToUpper()).SetBold())
+        .SetFontColor(ColorConstants.RED);
+    document.Add(paragraph);
+    document.Add(table);
+
+    canvas.MakeRectangle(x: 35, y: 430, width: 520, height: 55, color: lightGray);
+    var text = new Text(@"Os dados de leilão foram obtidos através de divulgações realizadas pelos leiloeiros oficiais em mídias 
+                        impressa e eletrônica. Eventuais inexatidões são de responsabilidade exclusiva dos leiloeiros responsáveis pela divulgação")
+                        .SetBold()
+                        .SetFontColor(ColorConstants.GRAY)
+                        .SetFontSize(9);
+    paragraph = new Paragraph("\n\nImportante - ".ToUpper()).Add(text);
+    document.Add(paragraph);
+
+    pagina = pdf.GetNumberOfPages();
+    paragraph = new Paragraph($"Página {pagina} de 4")
+        .SetFixedPosition(document.GetLeftMargin() + 200, ps.GetBottom() + 10, 505);
+    document.Add(paragraph);
+    #endregion
 #endregion
 
 document.Close();
