@@ -12,7 +12,7 @@ public static class PdfUtils {
                 .Add(new Paragraph(text))
             );
     }
-    public static Table AddImageSmall(this Table table, Image image, bool background = false) {
+    public static Table AddImage(this Table table, Image image, bool background = false) {
         return table.AddCell(
             new Cell().SetBackgroundColor(background ? ColorConstants.LIGHT_GRAY : null)
                 .Add(image
